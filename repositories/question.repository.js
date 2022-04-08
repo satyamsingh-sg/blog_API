@@ -124,6 +124,28 @@ const isQuestionId = async (questionId) => {
     return (await Question.find({ _id: questionId }).count()) > 0;
 };
 
+const addToSaved = async (contentId, userId) => {
+    return Question.updateOne(
+        { _id: contentId },
+        {
+            $addToSet: {
+                bookmarks: userId,
+            },
+        }
+    );
+};
+
+const removeFromSaved = async (contentId, userId) => {
+    return Question.updateOne(
+        { _id: contentId },
+        {
+            $pull: {
+                bookmarks: userId,
+            },
+        }
+    );
+};
+
 module.exports = {
     addQuestion,
     updateQuestion,
@@ -137,4 +159,6 @@ module.exports = {
     removeAnswerToQuestion,
     findNumberOfPages,
     isQuestionId,
+    addToSaved,
+    removeFromSaved,
 };

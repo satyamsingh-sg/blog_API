@@ -74,8 +74,6 @@ paths:
         "200":
           description: "Fetched current user profile details"
 
-  #path for updating user details by using user id
-  #Should update this!!!!
   /user/update_user:
     post:
       summary: "Profile update endpoint: Updates the user details and returns appropriate status"
@@ -290,6 +288,21 @@ paths:
       responses:
         "200":
           description: "Deleted the post succesfully"
+
+  /post/get_posts_by_userId/{userId}:
+    get:
+      summary: "Get other users post Details by their userId"
+      tags:
+        - "post"
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: "Fetched post details of the user"
 
   /question/create_question:
     post:
@@ -773,25 +786,27 @@ paths:
 
   #activity routes
 
-  /activity/get_liked_content:
-    get:
-      summary: "Get liked content of a particular user"
-      tags:
-        - "activity"
-      responses:
-        "200":
-          description: "Fetched liked content of that user"
-
   /activity/get_saved_content:
     get:
       summary: "Get saved content of a particular user"
       tags:
         - "activity"
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          required: true
       responses:
         "200":
           description: "Fetched saved content of the user"
 
-  /activity/get_recent_content:
+  /activity/get_recent_activity:
     get:
       summary: "Get recent content of a particular user"
       tags:
@@ -799,47 +814,6 @@ paths:
       responses:
         "200":
           description: "Fetched recent content of the user"
-
-  /activity/add_to_liked:
-    post:
-      summary: "Add like to posts or question"
-      tags:
-        - "activity"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                contentType:
-                  type: string
-                contentId:
-                  type: string
-
-      responses:
-        "200":
-          description: "Add the post or question into liked content sucessfully"
-
-  /activity/remove_from_liked:
-    post:
-      summary: "Remove posts or questions from the liked content"
-      tags:
-        - "activity"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                contentType:
-                  type: string
-                contentId:
-                  type: string
-                userId:
-                  type: string
-      responses:
-        "200":
-          description: "Removed from the liked content sucessfully"
 
   /activity/add_to_saved:
     post:
@@ -862,7 +836,7 @@ paths:
           description: "Bookmarked the post or question sucessfully"
 
   /activity/remove_from_saved:
-    post:
+    delete:
       summary: "Remove posts or questions from the saved content"
       tags:
         - "activity"
@@ -875,8 +849,6 @@ paths:
                 contentType:
                   type: string
                 contentId:
-                  type: string
-                userId:
                   type: string
       responses:
         "200":
@@ -896,10 +868,6 @@ paths:
                 contentType:
                   type: string
                 contentId:
-                  type: string
-                userId:
-                  type: string
-                time_stamp:
                   type: string
       responses:
         "200":
@@ -950,7 +918,6 @@ components:
         genres:
           type: array
           default: []
-          
 
     Post:
       type: object

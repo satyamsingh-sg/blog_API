@@ -13,18 +13,21 @@ const getSavedContent = async (userId, page, limit) => {
         );
         const saved = [];
 
-        savedActivity.forEach(async (activity) => {
+        for (const i in savedActivity) {
+            const activity = savedActivity[i];
             if (await postRepo.isPostId(activity.contentId)) {
-                const post = postRepo.findPostByPostId(activity.contentId);
+                const post = await postRepo.findPostByPostId(
+                    activity.contentId
+                );
                 saved.push(post);
             }
             if (await questionRepo.isQuestionId(activity.contentId)) {
-                const question = questionRepo.findQuestionByQuestionId(
+                const question = await questionRepo.findQuestionByQuestionId(
                     activity.contentId
                 );
-                saved.push(question);
             }
-        });
+            
+        }
 
         return {
             status: true,
@@ -54,7 +57,7 @@ const getRecentActivity = async (userId) => {
 const addToSavedContent = async (contentType, contentId, userId) => {
     try {
         const timestamp = new Date();
-        if (contentType !== "post" || contentType !== "question") {
+        if ((contentType !== "post") & (contentType !== "question")) {
             return {
                 status: false,
                 message: "Invalid content type provided",
@@ -68,7 +71,10 @@ const addToSavedContent = async (contentType, contentId, userId) => {
             userId,
             timestamp
         );
-        await userRepo.addToSaved(activity._id);
+        await userRepo.addToSaved(activity._id, userId);
+        contentType === "post"
+            ? await postRepo.addToSaved(contentId, userId)
+            : await questionRepo.addToSaved(contentId, userId);
         return {
             status: true,
             message: "Added to saved content successfully",
@@ -82,7 +88,7 @@ const addToSavedContent = async (contentType, contentId, userId) => {
 
 const removeFromSavedContent = async (contentType, contentId, userId) => {
     try {
-        if (contentType !== "post" || contentType !== "question") {
+        if ((contentType !== "post") & (contentType !== "question")) {
             return {
                 status: false,
                 message: "Invalid content type provided",
@@ -99,7 +105,10 @@ const removeFromSavedContent = async (contentType, contentId, userId) => {
             contentId,
             userId
         );
-        await userRepo.removeFromSaved(activityId);
+        await userRepo.removeFromSaved(activityId, userId);
+        contentType === "post"
+            ? await postRepo.removeFromSaved(contentId, userId)
+            : await questionRepo.removeFromSaved(contentId, userId);
         return {
             status: true,
             message: "Removed from saved content successfully",
@@ -114,7 +123,7 @@ const removeFromSavedContent = async (contentType, contentId, userId) => {
 const addToRecentActivity = async (contentType, contentId, userId) => {
     try {
         const timestamp = new Date();
-        if (contentType !== "post" || contentType !== "question") {
+        if (contentType !== "post" & contentType !== "question") {
             return {
                 status: false,
                 message: "Invalid content type provided",
@@ -128,7 +137,7 @@ const addToRecentActivity = async (contentType, contentId, userId) => {
             userId,
             timestamp
         );
-        await userRepo.addToRecents(content._id);
+        await userRepo.addToRecents(content._id, userId);
         return {
             status: true,
             message: "Added to recent activity successfully",

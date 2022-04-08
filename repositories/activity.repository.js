@@ -21,15 +21,13 @@ const getActivityIdByContentId = async (userId, contentId) => {
 };
 
 const addToSavedContent = async (contentType, contentId, userId, timestamp) => {
-    return await Activity.updateOne(
-        { userId, type: "saved" },
-        {
-            $set: {
-                activity_time: timestamp,
-                contentId,
-            },
-        }
-    );
+    const content = new Activity({
+        type: "saved",
+        contentId,
+        userId,
+        activity_time: timestamp,
+    });
+    return await content.save();
 };
 const removeFromSavedContent = async (contentType, contentId, userId) => {
     return await Activity.deleteOne({ userId, contentId, type: "saved" });
@@ -40,15 +38,13 @@ const addToRecentActivity = async (
     userId,
     timestamp
 ) => {
-    return await Activity.updateOne(
-        { userId, type: "recents" },
-        {
-            $set: {
-                activity_time: timestamp,
-                contentId,
-            },
-        }
-    );
+    const content = new Activity({
+        type: "recents",
+        contentId,
+        userId,
+        activity_time: timestamp,
+    });
+    return await content.save();
 };
 
 module.exports = {

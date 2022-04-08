@@ -39,7 +39,7 @@ const getRecentActivity = async (req, res) => {
     try {
         const body = req.body;
         if (req.user.id !== undefined) {
-            const response = await activityService.getRecentContent(
+            const response = await activityService.getRecentActivity(
                 req.user.id
             );
             return res.status(200).json(response);

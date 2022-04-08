@@ -126,6 +126,28 @@ const isPostId = async (postId) => {
     return (await Post.find({ _id: postId }).count()) > 0;
 };
 
+const addToSaved = async (contentId, userId) => {
+    return Post.updateOne(
+        { _id: contentId },
+        {
+            $addToSet: {
+                bookmarks: userId,
+            },
+        }
+    );
+};
+
+const removeFromSaved = async (contentId, userId) => {
+    return Post.updateOne(
+        { _id: contentId },
+        {
+            $pull: {
+                bookmarks: userId,
+            },
+        }
+    );
+};
+
 module.exports = {
     addPost,
     updatePost,
@@ -140,4 +162,6 @@ module.exports = {
     postIsLiked,
     findNumberOfPages,
     isPostId,
+    addToSaved,
+    removeFromSaved,
 };
