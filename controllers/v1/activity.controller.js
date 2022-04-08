@@ -35,6 +35,33 @@ const getSavedContent = async (req, res) => {
     }
 };
 
+const getSavedContentByContentId = async (req, res) => {
+    try {
+        const contentId = req.params.contentId;
+        if (req.user.id !== undefined && contentId !== undefined) {
+            const response = await activityService.getSavedContentByContentId(
+                req.user.id,
+                contentId
+            );
+            return res.status(200).json(response);
+        } else {
+            return res.status(422).json({
+                status: false,
+                message: "Missing paramters",
+                data: {},
+                errors: {},
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            status: false,
+            message: "Internal server error",
+            data: {},
+            message: error.message,
+        });
+    }
+};
+
 const getRecentActivity = async (req, res) => {
     try {
         const body = req.body;
@@ -163,4 +190,5 @@ module.exports = {
     addToSavedContent,
     removeFromSavedContent,
     addToRecentActivity,
+    getSavedContentByContentId,
 };

@@ -9,18 +9,24 @@ const createPost = async (userId, title, summary, genre, banner, cells) => {
 
         let errors = null;
 
-        cells.forEach((cell) => {
-            if (!cell.type || !cell.value || !cell.seq_no) {
-                errors = {
-                    status: false,
-                    message: "Data is invalid",
-                    data: {},
-                    errors: {
-                        message: "The data is not valid",
-                    },
-                };
-            }
-        });
+        if (
+            cells !== undefined &&
+            cells !== null &&
+            typeof cells !== "string"
+        ) {
+            cells.forEach((cell) => {
+                if (!cell.type || !cell.value || !cell.seq_no) {
+                    errors = {
+                        status: false,
+                        message: "Data is invalid",
+                        data: {},
+                        errors: {
+                            message: "The data is not valid",
+                        },
+                    };
+                }
+            });
+        }
         if (errors) {
             return errors;
         }

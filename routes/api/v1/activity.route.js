@@ -24,6 +24,12 @@ router.post(
     activityController.addToSavedContent
 );
 
+router.get(
+    "/get_saved_by_content_id/:contentId",
+    authMiddleware,
+    activityController.getSavedContentByContentId
+);
+
 router.delete(
     "/remove_from_saved",
     authMiddleware,

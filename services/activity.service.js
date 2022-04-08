@@ -26,13 +26,29 @@ const getSavedContent = async (userId, page, limit) => {
                     activity.contentId
                 );
             }
-            
         }
 
         return {
             status: true,
             message: "Saved content fetched successfully",
             data: saved,
+            errors: {},
+        };
+    } catch (error) {
+        throw error;
+    }
+};
+
+const getSavedContentByContentId = async (userId, contentId) => {
+    try {
+        const savedData = await activityRepo.getSavedContentByContentId(
+            userId,
+            contentId
+        );
+        return {
+            status: true,
+            message: "Got the saved content successfully",
+            data: savedData,
             errors: {},
         };
     } catch (error) {
@@ -123,7 +139,7 @@ const removeFromSavedContent = async (contentType, contentId, userId) => {
 const addToRecentActivity = async (contentType, contentId, userId) => {
     try {
         const timestamp = new Date();
-        if (contentType !== "post" & contentType !== "question") {
+        if ((contentType !== "post") & (contentType !== "question")) {
             return {
                 status: false,
                 message: "Invalid content type provided",
@@ -155,4 +171,5 @@ module.exports = {
     addToSavedContent,
     removeFromSavedContent,
     addToRecentActivity,
+    getSavedContentByContentId,
 };
