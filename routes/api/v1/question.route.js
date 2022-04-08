@@ -5,6 +5,10 @@ const router = express.Router();
 const authMiddleware = require("../../../middlewares/auth.middleware");
 
 const questionController = require("../../../controllers/v1/question.controller");
+const upload = require("../../../middlewares/multer.middleware");
+const {
+    uploadToCloudinary,
+} = require("../../../middlewares/question.middeware");
 
 router.get("/get_all_questions", questionController.getQuestions);
 
@@ -26,7 +30,7 @@ router.get(
 
 router.post(
     "/create_question",
-    authMiddleware,
+    [authMiddleware, upload.single("screenshot"), uploadToCloudinary],
     questionController.createQuestion
 );
 
