@@ -3,6 +3,7 @@ const postService = require("../../services/post.service");
 const createPost = async (req, res) => {
     try {
         const body = req.body;
+        console.log(body);
         if (
             body.title !== undefined &&
             body.summary !== undefined &&
