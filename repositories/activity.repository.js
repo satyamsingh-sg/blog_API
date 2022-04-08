@@ -10,6 +10,14 @@ const getSavedContent = async (userId, startIndex, limit) => {
         .exec();
 };
 
+const getSavedContentByContentId = async (userId, contentId) => {
+    return await Activity.find({ userId, type: "saved", contentId })
+        .populate("forPosts")
+        .populate("forQuestions")
+        .sort({ activity_time: -1 })
+        .exec();
+};
+
 const getRecentActivity = async (userId) => {
     return await Activity.find({ userId, type: "recents" })
         .sort({ activity_time: -1 })
@@ -54,4 +62,5 @@ module.exports = {
     addToSavedContent,
     removeFromSavedContent,
     addToRecentActivity,
+    getSavedContentByContentId,
 };
