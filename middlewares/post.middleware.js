@@ -12,7 +12,7 @@ function isJson(str) {
 const postImageCellsMiddleware = async (req, res, next) => {
     try {
         const body = req.body;
-        const cells = [];
+        let cells = [];
         if (isJson(body.cells)) {
             cells = JSON.parse(body.cells);
         } else {

@@ -232,6 +232,8 @@ paths:
       summary: "Create a post"
       tags:
         - "post"
+     
+
       requestBody:
         content:
           multipart/form-data:
