@@ -34,6 +34,10 @@ const getActivityIdByContentId = async (userId, contentId) => {
     }
 };
 
+const findNumberOfSavedPages = async (limit) => {
+    return Math.ceil((await Activity.find({ type: "saved" })).length / limit);
+};
+
 const addToSavedContent = async (contentType, contentId, userId, timestamp) => {
     const content = new Activity({
         type: "saved",
@@ -69,4 +73,5 @@ module.exports = {
     removeFromSavedContent,
     addToRecentActivity,
     getSavedContentByContentId,
+    findNumberOfSavedPages,
 };

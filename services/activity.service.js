@@ -12,6 +12,7 @@ const getSavedContent = async (userId, page, limit) => {
             limit
         );
         const saved = [];
+        const numberOfPages = await activityRepo.findNumberOfSavedPages(limit);
 
         for (const i in savedActivity) {
             const activity = savedActivity[i];
@@ -31,7 +32,10 @@ const getSavedContent = async (userId, page, limit) => {
         return {
             status: true,
             message: "Saved content fetched successfully",
-            data: saved,
+            data: {
+                saved,
+                numberOfPages,
+            },
             errors: {},
         };
     } catch (error) {
