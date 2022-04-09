@@ -20,12 +20,22 @@ const getSavedContentByContentId = async (userId, contentId) => {
 
 const getRecentActivity = async (userId) => {
     return await Activity.find({ userId, type: "recents" })
+        .populate("forPosts")
+        .populate("forQuestions")
         .sort({ activity_time: -1 })
         .limit(10);
 };
 
 const getActivityIdByContentId = async (userId, contentId) => {
-    return (await Activity.findOne({ userId, contentId }))._id;
+    try {
+        return (await Activity.findOne({ userId, contentId }))._id;
+    } catch (error) {
+        return undefined;
+    }
+};
+
+const findNumberOfSavedPages = async (limit) => {
+    return Math.ceil((await Activity.find({ type: "saved" })).length / limit);
 };
 
 const addToSavedContent = async (contentType, contentId, userId, timestamp) => {
@@ -63,4 +73,5 @@ module.exports = {
     removeFromSavedContent,
     addToRecentActivity,
     getSavedContentByContentId,
+    findNumberOfSavedPages,
 };
