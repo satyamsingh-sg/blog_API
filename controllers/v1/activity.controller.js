@@ -175,6 +175,7 @@ const addToRecentActivity = async (req, res) => {
             });
         }
     } catch (error) {
+        console.log(error);
         return res.status(500).json({
             status: false,
             message: "Internal server error",

@@ -58,7 +58,34 @@ const getSavedContentByContentId = async (userId, contentId) => {
 
 const getRecentActivity = async (userId) => {
     try {
-        const content = await activityRepo.getRecentActivity(userId);
+        let content = await activityRepo.getRecentActivity(userId);
+
+        console.log(content);
+        for (let i in content) {
+            if (await postRepo.isPostId(content[i].contentId)) {
+                const post = await postRepo.findPostByPostId(
+                    content[i].contentId
+                );
+                content[i].content = {
+                    ...content[i]._doc,
+                    content: post,
+                    content: question,
+                    type: "post",
+                };
+            }
+            console.log(await questionRepo.isQuestionId(content[i].contentId));
+            if (await questionRepo.isQuestionId(content[i].contentId)) {
+                const question = await questionRepo.findQuestionByQuestionId(
+                    content[i].contentId
+                );
+                content[i] = {
+                    ...content[i]._doc,
+                    content: question,
+                    type: "question",
+                };
+            }
+        }
+
         return {
             status: true,
             message: "Recent activity fetched successfully",
@@ -144,6 +171,19 @@ const addToRecentActivity = async (contentType, contentId, userId) => {
                 status: false,
                 message: "Invalid content type provided",
                 data: {},
+                errors: {},
+            };
+        }
+        const isRecent = await activityRepo.getActivityIdByContentId(
+            userId,
+            contentId
+        );
+        console.log(isRecent);
+        if (isRecent) {
+            return {
+                status: true,
+                message: "Already present in activity",
+                data: isRecent,
                 errors: {},
             };
         }

@@ -20,12 +20,18 @@ const getSavedContentByContentId = async (userId, contentId) => {
 
 const getRecentActivity = async (userId) => {
     return await Activity.find({ userId, type: "recents" })
+        .populate("forPosts")
+        .populate("forQuestions")
         .sort({ activity_time: -1 })
         .limit(10);
 };
 
 const getActivityIdByContentId = async (userId, contentId) => {
-    return (await Activity.findOne({ userId, contentId }))._id;
+    try {
+        return (await Activity.findOne({ userId, contentId }))._id;
+    } catch (error) {
+        return undefined;
+    }
 };
 
 const addToSavedContent = async (contentType, contentId, userId, timestamp) => {
