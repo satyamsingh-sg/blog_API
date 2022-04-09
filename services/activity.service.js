@@ -20,12 +20,13 @@ const getSavedContent = async (userId, page, limit) => {
                 const post = await postRepo.findPostByPostId(
                     activity.contentId
                 );
-                saved.push(post);
+                saved.push({ ...post._doc, type: "post" });
             }
             if (await questionRepo.isQuestionId(activity.contentId)) {
                 const question = await questionRepo.findQuestionByQuestionId(
                     activity.contentId
                 );
+                saved.push({ ...question._doc, type: "question" });
             }
         }
 
