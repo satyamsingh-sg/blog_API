@@ -232,16 +232,53 @@ paths:
       summary: "Create a post"
       tags:
         - "post"
+     
+
       requestBody:
-        required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: "#/components/schemas/Post"
+              type: object
+              properties:
+                title:
+                  type: string
+                summary:
+                  type: string
+                genre:
+                  type: string
+                banner:
+                  type: array
+                  items:
+                    type: string
+                    format: binary 
+                cells:
+                    type: array
+                    default : []
+      # requestBody:
+      #   required: true
+      #   content:
+      #     application/json:
+      #       schema:
+      #           type: object
+      #           properties:
+      #             title:
+      #               type: string
+      #             summary:
+      #               type: string
+      #             genre:
+      #               type: string
+      #             banner:
+      #               type: string
+      #               format: base64
+      #             cells:
+      #               type: array
+      #               default : []
+              
 
       responses:
         "200":
           description: "Post Created Successfully"
+      x-codegen-request-body-name: body
 
   /post/update_post:
     post:
@@ -304,6 +341,25 @@ paths:
         "200":
           description: "Fetched post details of the user"
 
+  /post/like_post:
+      post:
+        summary: "Like a post"
+        tags:
+          - "post"
+        requestBody:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                          postId:
+                            type: string
+
+        responses:
+            '200':
+                description: "Liked the post sucessfully"
+                
   /question/create_question:
     post:
       summary: "Create a Question"
@@ -930,8 +986,6 @@ components:
           type: string
         genre:
           type: string
-        banner:
-          type: string
         cells:
           type: array
           default: []
@@ -997,6 +1051,17 @@ components:
         questions:
           type: array
           default: []
+
+    PostData:
+        type: object
+        properties:
+          data:
+            $ref: "#/components/schemas/Post"
+          banner: 
+            type: string
+            format: binary
+            writeOnly: true
+
 
   securitySchemes:
     bearerAuth:
