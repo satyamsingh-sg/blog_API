@@ -1,9 +1,24 @@
 const cloudinary = require("../utils/cloudinary");
 
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 const postImageCellsMiddleware = async (req, res, next) => {
     try {
         const body = req.body;
-        const cells = JSON.parse(body.cells);
+        const cells = [];
+        if (isJson(body.cells)) {
+            cells = JSON.parse(body.cells);
+        } else {
+            cells = body.cells;
+        }
+
         const files = req.files;
         for (let i in files) {
             if (files[i].fieldname.includes("banner")) {

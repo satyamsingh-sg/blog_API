@@ -3,6 +3,7 @@ const questionService = require("../../services/question.service");
 const createQuestion = async (req, res) => {
     try {
         const body = req.body;
+        console.log(body.screenshot);
         if (
             req.user.id !== undefined &&
             body.title !== undefined &&
