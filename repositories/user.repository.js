@@ -127,16 +127,16 @@ const removeFollower = async (userId, follow_userId) => {
 };
 
 const addToLiked = async (likedId, userId) => {
-    return await User.populate("forPosts")
-        .populate("forQuestions")
-        .updateOne(
-            { _id: userId },
-            {
-                $addToSet: {
-                    liked: likedId,
-                },
-            }
-        );
+    return await User.updateOne(
+        { _id: userId },
+        {
+            $addToSet: {
+                liked: likedId,
+            },
+        }
+    )
+        .populate("forPosts")
+        .populate("forQuestions");
 };
 
 const removeFromLiked = async (likedId, userId) => {
