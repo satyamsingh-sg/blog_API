@@ -2,9 +2,31 @@ const multer = require("multer");
 
 var storage = multer.diskStorage({
     destination: function (request, file, callback) {
-        callback(null, `uploads/${request.headers.folder}`);
+        if (
+            file.fieldname === "banner" ||
+            file.fieldname.includes("cellImage")
+        ) {
+            callback(null, "uploads/posts");
+        }
+        if (file.fieldname === "screenshot") {
+            callback(null, "uploads/questions");
+        } else {
+            callback(null, "uploads/others");
+        }
     },
     filename: function (request, file, callback) {
+        let folder = "";
+        if (
+            file.fieldname === "banner" ||
+            file.fieldname.includes("cellImage")
+        ) {
+            folder = "posts";
+        }
+        if (file.fieldname === "screenshot") {
+            folder = "questions";
+        } else {
+            folder = "others";
+        }
         callback(
             null,
             new Date().getTime().toString() +
@@ -13,7 +35,7 @@ var storage = multer.diskStorage({
                 "-" +
                 request.user.id +
                 "-" +
-                request.headers.folder +
+                folder +
                 "-" +
                 file.originalname
         );
