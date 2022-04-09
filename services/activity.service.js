@@ -71,10 +71,9 @@ const getRecentActivity = async (userId) => {
                 const post = await postRepo.findPostByPostId(
                     content[i].contentId
                 );
-                content[i].content = {
+                content[i] = {
                     ...content[i]._doc,
                     content: post,
-                    content: question,
                     type: "post",
                 };
             }
