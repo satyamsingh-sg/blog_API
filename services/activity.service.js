@@ -65,7 +65,6 @@ const getRecentActivity = async (userId) => {
     try {
         let content = await activityRepo.getRecentActivity(userId);
 
-        console.log(content);
         for (let i in content) {
             if (await postRepo.isPostId(content[i].contentId)) {
                 const post = await postRepo.findPostByPostId(
@@ -77,7 +76,6 @@ const getRecentActivity = async (userId) => {
                     type: "post",
                 };
             }
-            console.log(await questionRepo.isQuestionId(content[i].contentId));
             if (await questionRepo.isQuestionId(content[i].contentId)) {
                 const question = await questionRepo.findQuestionByQuestionId(
                     content[i].contentId
@@ -182,7 +180,6 @@ const addToRecentActivity = async (contentType, contentId, userId) => {
             userId,
             contentId
         );
-        console.log(isRecent);
         if (isRecent) {
             return {
                 status: true,

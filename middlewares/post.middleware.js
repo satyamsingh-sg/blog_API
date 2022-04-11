@@ -27,7 +27,6 @@ const postImageCellsMiddleware = async (req, res, next) => {
             if (files[i].fieldname.includes("cellImage_")) {
                 const index = parseInt(files[i].fieldname.slice(-1));
                 for (let j in cells) {
-                    console.log(index, parseInt(cells[j].value));
                     if (
                         cells[j].type === "image" &&
                         parseInt(cells[j].value) === index
@@ -37,7 +36,6 @@ const postImageCellsMiddleware = async (req, res, next) => {
                 }
             }
         }
-        console.log(cells);
         req.body.cells = cells;
         next();
     } catch (error) {
@@ -65,7 +63,7 @@ const uploadToCloudinary = async (req, res, next) => {
                         { use_filename: true, folder: `posts/${req.user.id}` }
                     );
                 } catch (error) {
-                    console.log(error);
+                    throw error;
                 }
 
                 cells[i].value = cellImageUpload.url;
