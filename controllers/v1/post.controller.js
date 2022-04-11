@@ -3,7 +3,6 @@ const postService = require("../../services/post.service");
 const createPost = async (req, res) => {
     try {
         const body = req.body;
-        console.log(body.banner, body.cells);
         if (
             body.title !== undefined &&
             body.summary !== undefined &&
@@ -27,7 +26,6 @@ const createPost = async (req, res) => {
             });
         }
     } catch (error) {
-        console.log(error);
         return res.status(500).json({
             status: false,
             message: "Internal server error",
