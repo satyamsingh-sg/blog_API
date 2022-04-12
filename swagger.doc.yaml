@@ -365,24 +365,41 @@ paths:
       summary: "Create a Question"
       tags:
         - "question"
-      parameters:
-        - in: header
-          name: authorization
-          required: true
-          schema:
-            type: string
-
       requestBody:
-        required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
-              $ref: "#/components/schemas/Question"
+              properties:
+                title:
+                  type: string
+                summary:
+                  type: string
+                genre:
+                  type: string
+                screenshot:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
 
       responses:
-        "200":
-          description: "Question Created Successfully"
+          '200':
+              description: "Question Created Sucessfully!!" 
+                
+                
+
+      # requestBody:
+      #   required: true
+      #   content:
+      #     application/json:
+      #       schema:
+      #         type: object
+      #         $ref: "#/components/schemas/Question"
+
+      # responses:
+      #   "200":
+      #     description: "Question Created Successfully"
 
   /question/update_question:
     post:
@@ -993,12 +1010,9 @@ components:
     Question:
       type: object
       required:
-        - userId
         - title
         - summary
       properties:
-        userId:
-          type: string
         title:
           type: string
         summary:
