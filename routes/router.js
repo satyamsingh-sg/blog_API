@@ -9,7 +9,7 @@ const commentRoute = require("./api/v1/comment.route");
 const answerRoute = require("./api/v1/answer.route");
 const activityRoute = require("./api/v1/activity.route");
 
-router.get("/", function (req, res) {
+router.get("/", function(req, res) {
     res.status(200).send({ message: "API is doing great 🐢." });
 });
 
