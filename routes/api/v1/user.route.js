@@ -10,9 +10,9 @@ const userController = require("../../../controllers/v1/user.controller");
 const router = express.Router();
 router.get("/get_user", authMiddleware, userController.getUser);
 router.get("/get_user/:user_id", authMiddleware, userController.getUserById);
-router.post("/update_user", authMiddleware, userController.updateUser);
-router.post("/follow_user", authMiddleware, userController.followUser);
-router.post("/unfollow_user", authMiddleware, userController.unfollowUser);
-router.post("/remove_follower", authMiddleware, userController.removeFollower);
+router.put("/update_user", authMiddleware, userController.updateUser);
+router.put("/follow_user", authMiddleware, userController.followUser);
+router.put("/unfollow_user", authMiddleware, userController.unfollowUser);
+router.put("/remove_follower", authMiddleware, userController.removeFollower);
 
 module.exports = router;

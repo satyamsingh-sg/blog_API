@@ -34,7 +34,7 @@ router.post(
     questionController.createQuestion
 );
 
-router.post(
+router.put(
     "/update_question",
     authMiddleware,
     questionController.updateQuestion
@@ -46,13 +46,13 @@ router.delete(
     questionController.deleteQuestion
 );
 
-router.post(
+router.put(
     "/up_vote_question",
     authMiddleware,
     questionController.upVoteAQuestion
 );
 
-router.post(
+router.put(
     "/down_vote_question",
     authMiddleware,
     questionController.downVoteAQuestion

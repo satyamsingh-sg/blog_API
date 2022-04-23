@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get("/get_comments/:postId", commentController.getComments);
 router.post("/add_comment", authMiddleware, commentController.addComment);
-router.post("/edit_comment", authMiddleware, commentController.editComment);
+router.put("/edit_comment", authMiddleware, commentController.editComment);
 router.delete(
     "/delete_comment",
     authMiddleware,

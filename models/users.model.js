@@ -36,6 +36,10 @@ const userSchema = mongoose.Schema(
         recents: [{ type: mongoose.Schema.Types.ObjectId, ref: "activity" }],
         liked: [{ type: mongoose.Schema.Types.ObjectId, required: true }],
         saved: [{ type: mongoose.Schema.Types.ObjectId, ref: "activity" }],
+        is_active: {
+            type: Boolean,
+            default: true,
+        },
     },
     {
         toJSON: { virtuals: true },

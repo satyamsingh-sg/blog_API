@@ -17,6 +17,22 @@ const createJWT = (user) => {
     }
 };
 
+const createAdminJWT = (admin) => {
+    try {
+        const payload = {
+            admin: {
+                id: admin._id,
+            },
+        };
+
+        return jwt.sign(payload, process.env.jwtSecret, {
+            expiresIn: 36000000,
+        });
+    } catch (error) {
+        throw error;
+    }
+};
+
 const encryptPassword = async (password) => {
     try {
         const salt = await bcrypt.genSalt(10);
@@ -29,5 +45,6 @@ const encryptPassword = async (password) => {
 
 module.exports = {
     createJWT,
+    createAdminJWT,
     encryptPassword,
 };

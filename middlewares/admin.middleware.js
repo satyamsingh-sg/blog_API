@@ -17,7 +17,7 @@ module.exports = function (req, res, next) {
             token = token.split(" ").pop();
         }
         const decodedToken = jwt.verify(token, process.env.jwtSecret);
-        req.user = decodedToken.user;
+        req.admin = decodedToken.admin;
         next();
     } catch (err) {
         res.status(401).json({

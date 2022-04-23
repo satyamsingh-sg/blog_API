@@ -25,8 +25,8 @@ router.post(
     ],
     postController.createPost
 );
-router.post("/update_post", authMiddleware, postController.updatePost);
+router.put("/update_post", authMiddleware, postController.updatePost);
 router.delete("/delete_post", authMiddleware, postController.deletePost);
-router.post("/like_post", authMiddleware, postController.likeOrDislikeThePost);
+router.put("/like_post", authMiddleware, postController.likeOrDislikeThePost);
 
 module.exports = router;
