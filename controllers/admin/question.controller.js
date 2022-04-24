@@ -20,7 +20,7 @@ const getAllQuestions = async (req, res) => {
 };
 const deleteQuestionById = async (req, res) => {
     try {
-        const questionId = req.body.questionId;
+        const questionId = req.params.questionId;
         if (!questionId) {
             return res.status(422).json({
                 status: false,
