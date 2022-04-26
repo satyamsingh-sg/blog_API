@@ -29,6 +29,18 @@ const questionSchema = new mongoose.Schema({
     },
     up_votes: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
     bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+    num_votes: {
+        type: Number,
+        default: 0
+    },
+    num_bookmarks: {
+        type: Number,
+        default: 0
+    },
+    num_answers: {
+        type: Number,
+        default: 0
+    },
     status: {
         type: Boolean,
         default: true,

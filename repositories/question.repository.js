@@ -68,6 +68,9 @@ const upVoteAQuestion = async (questionId, userId) => {
             $addToSet: {
                 up_votes: userId,
             },
+            $inc: {
+                num_votes: 1
+            }
         }
     );
 };
@@ -79,12 +82,17 @@ const downVoteAQuestion = async (questionId, userId) => {
             $pull: {
                 up_votes: userId,
             },
+            $inc: {
+                num_votes: -1
+            }
         }
     );
 };
 
-const findAllQuestions = async (startIndex, limit) => {
-    return await Question.find().limit(limit).skip(startIndex).exec();
+const findAllQuestions = async (startIndex, limit, filter, order) => {
+    const sort = {}
+    sort[filter] = parseInt(order)
+    return await Question.find().sort(sort).limit(limit).skip(startIndex).exec();
 };
 
 const findQuestionByQuestionId = async (questionId) => {
@@ -102,6 +110,9 @@ const addAnswerToQuestion = async (questionId, answerId) => {
             $addToSet: {
                 answers: answerId,
             },
+            $inc: {
+                num_answers: 1
+            }
         }
     );
 };
@@ -112,6 +123,9 @@ const removeAnswerToQuestion = async (questionId, answerId) => {
             $pull: {
                 answers: answerId,
             },
+            $inc: {
+                num_answers: -1
+            }
         }
     );
 };
@@ -131,6 +145,9 @@ const addToSaved = async (contentId, userId) => {
             $addToSet: {
                 bookmarks: userId,
             },
+            $inc: {
+                num_bookmarks: 1
+            }
         }
     );
 };
@@ -142,6 +159,9 @@ const removeFromSaved = async (contentId, userId) => {
             $pull: {
                 bookmarks: userId,
             },
+            $inc: {
+                num_bookmarks: -1
+            }
         }
     );
 };

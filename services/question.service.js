@@ -74,13 +74,15 @@ const deleteQuestion = async (questionsId, userId) => {
     }
 };
 
-const getQuestions = async (page, limit) => {
+const getQuestions = async (page, limit, filter, order) => {
     try {
         const startIndex = (page - 1) * limit;
         const numberOfPages = await questionsRepo.findNumberOfPages(limit);
         const questions = await questionsRepo.findAllQuestions(
             startIndex,
-            limit
+            limit,
+            filter,
+            order
         );
         return {
             status: true,
