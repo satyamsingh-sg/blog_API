@@ -2,22 +2,23 @@ const Question = require("../../models/question.model");
 
 const getAllQuestions = async (req, res) => {
     try {
-        const page = req.query.page
-        const limit = req.query.limit
+        const page = req.query.page;
+        const limit = req.query.limit;
         if (!page || !limit) {
             return res.status(422).json({
                 status: false,
                 message: "Missing query parameters",
                 data: {},
                 errors: { page, limit },
-            })
+            });
         }
-        const startIndex = (page - 1) * limit
+        const startIndex = (page - 1) * limit;
         const questions = await Question.find().limit(limit).skip(startIndex);
+        const numOfPages = Math.ceil((await Question.find()).length / limit);
         return res.status(200).json({
             status: true,
             message: "Questions fetched successfully",
-            data: questions,
+            data: { questions, numOfPages },
             errors: {},
         });
     } catch (error) {
