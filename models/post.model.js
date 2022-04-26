@@ -32,6 +32,18 @@ const postSchema = new mongoose.Schema({
         default: "banner image",
     },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+    num_likes: {
+        type: Number,
+        default: 0
+    },
+    num_bookmarks: {
+        type: Number,
+        default: 0
+    },
+    num_comments: {
+        type: Number,
+        default: 0
+    },
     bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comment" }],
     cells: {

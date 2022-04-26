@@ -58,8 +58,11 @@ const deletePost = async (postId, userId) => {
     );
 };
 
-const findAllPosts = async (startIndex, limit) => {
-    return await Post.find().limit(limit).skip(startIndex).exec();
+const findAllPosts = async (startIndex, limit, filter, order) => {
+    const sort = {}
+    sort[filter] = parseInt(order)
+    console.log(sort, typeof filter, typeof order)
+    return await Post.find().sort(sort).limit(limit).skip(startIndex).exec();
 };
 
 const findPostByPostId = async (postId) => {
@@ -77,6 +80,9 @@ const addCommentToPost = async (postId, commentId) => {
             $addToSet: {
                 comments: commentId,
             },
+            $inc: {
+                num_comments: 1
+            }
         }
     );
 };
@@ -88,6 +94,9 @@ const deleteCommentInPost = async (postId, commentId) => {
             $pull: {
                 comments: commentId,
             },
+            $inc: {
+                num_comments: -1
+            }
         }
     );
 };
@@ -99,6 +108,9 @@ const addLikeToPost = async (userId, postId) => {
             $addToSet: {
                 likes: userId,
             },
+            $inc: {
+                num_likes: 1
+            }
         }
     );
 };
@@ -110,6 +122,9 @@ const removeLikeFromPost = async (userId, postId) => {
             $pull: {
                 likes: userId,
             },
+            $inc: {
+                num_likes: -1
+            }
         }
     );
 };
@@ -133,6 +148,9 @@ const addToSaved = async (contentId, userId) => {
             $addToSet: {
                 bookmarks: userId,
             },
+            $inc: {
+                num_bookmarks: 1
+            }
         }
     );
 };
@@ -144,6 +162,9 @@ const removeFromSaved = async (contentId, userId) => {
             $pull: {
                 bookmarks: userId,
             },
+            $inc: {
+                num_bookmarks: -1
+            }
         }
     );
 };

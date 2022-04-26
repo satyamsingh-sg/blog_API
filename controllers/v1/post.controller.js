@@ -102,13 +102,21 @@ const getPosts = async (req, res) => {
     try {
         const page = req.query.page;
         const limit = req.query.limit;
+        let filter = req.query.filter;
+        let order = req.query.order;
+        if (!filter) {
+            filter = "published_date"
+        }
+        if (!order) {
+            order = -1
+        }
         if (
             page !== undefined &&
             page !== null &&
             limit !== undefined &&
             limit !== null
         ) {
-            const response = await postService.getPosts(page, limit);
+            const response = await postService.getPosts(page, limit, filter, order);
             return res.status(200).json(response);
         } else {
             return res.status(422).json({
