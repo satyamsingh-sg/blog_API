@@ -3,7 +3,18 @@ const User = require("../../models/users.model");
 
 const getAllUsers = async (req, res) => {
     try {
-        const response = await userService.getAllUsers();
+        const page = req.query.page
+        const limit = req.query.limit
+        if (!page || !limit) {
+            return res.status(422).json({
+                status: false,
+                message: "Missing query parameters",
+                data: {},
+                errors: { page, limit },
+            })
+        }
+        const startIndex = (page - 1) * limit
+        const response = await userService.getAllUsers(limit, startIndex);
         return res.status(200).json(response);
     } catch (error) {
         return res.status(500).json({

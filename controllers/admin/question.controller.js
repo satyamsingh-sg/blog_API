@@ -2,7 +2,18 @@ const Question = require("../../models/question.model");
 
 const getAllQuestions = async (req, res) => {
     try {
-        const questions = await Question.find();
+        const page = req.query.page
+        const limit = req.query.limit
+        if (!page || !limit) {
+            return res.status(422).json({
+                status: false,
+                message: "Missing query parameters",
+                data: {},
+                errors: { page, limit },
+            })
+        }
+        const startIndex = (page - 1) * limit
+        const questions = await Question.find().limit(limit).skip(startIndex);
         return res.status(200).json({
             status: true,
             message: "Questions fetched successfully",

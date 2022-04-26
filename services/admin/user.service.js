@@ -4,7 +4,7 @@ const adminRepo = require("../../repositories/admin.repository");
 
 const getAllUsers = async () => {
     try {
-        const users = await User.find().populate("posts").populate("questions");
+        const users = await User.find().populate("posts").populate("questions").limit(limit).skip(startIndex);
         return {
             status: true,
             message: "Fetched all users successfully",
