@@ -5,6 +5,10 @@ const postController = require("../../../controllers/admin/post.controller");
 const adminMiddleware = require("../../../middlewares/admin.middleware");
 
 router.get("/get_posts", adminMiddleware, postController.getAllPosts);
-router.delete("/delete_post", adminMiddleware, postController.deletePostById);
+router.delete(
+    "/delete_post/:postId",
+    adminMiddleware,
+    postController.deletePostById
+);
 
 module.exports = router;

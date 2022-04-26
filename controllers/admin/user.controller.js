@@ -28,7 +28,7 @@ const getAllUsers = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try {
-        const body = req.body;
+        const body = req.params;
         if (body.userId !== undefined) {
             const response = await userService.deleteUser(body.userId);
             return res.status(200).json(response);

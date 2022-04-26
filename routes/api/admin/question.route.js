@@ -11,7 +11,7 @@ router.get(
 );
 
 router.delete(
-    "delete_question",
+    "delete_question/:questionId",
     adminMiddleware,
     questionController.deleteQuestionById
 );

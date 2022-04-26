@@ -31,7 +31,7 @@ const getAllPosts = async (req, res) => {
 };
 const deletePostById = async (req, res) => {
     try {
-        const postId = req.body.postId;
+        const postId = req.params.postId;
         if (!postId) {
             return res.status(422).json({
                 status: false,
