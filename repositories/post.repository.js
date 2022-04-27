@@ -1,8 +1,6 @@
 const Post = require("../models/post.model");
 const User = require("../models/users.model");
 
-const client = require("../config/redis.connection")
-
 const addPost = async (
     userId,
     author,
@@ -63,21 +61,7 @@ const deletePost = async (postId, userId) => {
 const findAllPosts = async (startIndex, limit, filter, order) => {
     const sort = {}
     sort[filter] = parseInt(order)
-    const cacheString = `posts_page@${startIndex}_limit@${limit}`
-    const cachedPosts = await client.get(cacheString, (err, data) => {
-        if (err) {
-            console.log(err)
-            throw err
-        }
-        return data
-    })
-    if (cachedPosts !== null) {
-        return JSON.parse(cachedPosts)
-    } else {
-        const response = await Post.find().sort(sort).limit(limit).skip(startIndex).exec();
-        await client.setEx(cacheString, 20, JSON.stringify(response))
-        return response
-    }
+    return await Post.find().sort(sort).limit(limit).skip(startIndex).exec();
 };
 
 const findPostByPostId = async (postId) => {

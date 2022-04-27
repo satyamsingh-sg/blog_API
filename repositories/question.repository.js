@@ -1,4 +1,3 @@
-const client = require("../config/redis.connection");
 const Question = require("../models/question.model");
 const User = require("../models/users.model");
 
@@ -93,21 +92,7 @@ const downVoteAQuestion = async (questionId, userId) => {
 const findAllQuestions = async (startIndex, limit, filter, order) => {
     const sort = {}
     sort[filter] = parseInt(order)
-    const cacheString = `questions_page@${startIndex}_limit@${limit}`
-    const cachedQuestions = await client.get(cacheString, (err, data) => {
-        if (err) {
-            console.log(err)
-            throw err
-        }
-        return data
-    })
-    if (cachedQuestions !== null) {
-        return JSON.parse(cachedQuestions)
-    } else {
-        const response = await Question.find().sort(sort).limit(limit).skip(startIndex).exec();
-        await client.setEx(cacheString, 20, JSON.stringify(response))
-        return response
-    }
+    return await Question.find().sort(sort).limit(limit).skip(startIndex).exec();
 };
 
 const findQuestionByQuestionId = async (questionId) => {
