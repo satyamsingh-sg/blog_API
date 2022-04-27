@@ -2,22 +2,23 @@ const Post = require("../../models/post.model");
 
 const getAllPosts = async (req, res) => {
     try {
-        const page = req.query.page
-        const limit = req.query.limit
+        const page = req.query.page;
+        const limit = req.query.limit;
         if (!page || !limit) {
             return res.status(422).json({
                 status: false,
                 message: "Missing query parameters",
                 data: {},
                 errors: { page, limit },
-            })
+            });
         }
-        const startIndex = (page - 1) * limit
+        const startIndex = (page - 1) * limit;
         const posts = await Post.find().limit(limit).skip(startIndex);
+        const numOfPages = Math.ceil((await Post.find()).length / limit);
         return res.status(200).json({
             status: true,
             message: "Posts fetched successfully",
-            data: posts,
+            data: { posts, numOfPages },
             errors: {},
         });
     } catch (error) {
