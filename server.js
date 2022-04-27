@@ -14,6 +14,7 @@ const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./swagger.doc.yaml");
 
 require("./config/mongo.connection");
+require("./config/redis.connection");
 
 const app = express();
 app.use(bodyParser.json());
