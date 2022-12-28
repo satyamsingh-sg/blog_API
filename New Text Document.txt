@@ -1,0 +1,13 @@
+MONGO_URI=mongodb+srv://team8:team8@the-blogsite.vpeew.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+jwtSecret=usercreation123
+SESSION_SECRET=team8Rocks
+BLG_CLOUDINARY_CLOUD_ALIAS=dfmtcspol
+BLG_CLOUDINARY_API_KEY=377161812396231
+BLG_CLOUDINARY_API_SECRET=4OWqcWjV_oal0IpCOS_tsmf-JG0
+REDIS_HOST=redis-16954.c16.us-east-1-2.ec2.cloud.redislabs.com
+REDIS_PORT=16954
+REDIS_PASSWORD=sLo2PVG6TdkF27rd5aAiXOmexNAe07ZY
+
+client .env file
+
+REACT_APP_API_BASE_URL=https://the-blogsite.herokuapp.com/api/v1
